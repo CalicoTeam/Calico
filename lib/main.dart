@@ -8,14 +8,15 @@ import 'views/item_info_page.dart';
 import 'utils/color_utils.dart';
 
 void main() {
-  String initialRoute = "login";
-  runApp(MyApp(initialRoute: initialRoute));
+  // String initialRoute = "login";
+  // runApp(MyApp(initialRoute: initialRoute));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key, required this.initialRoute}) : super(key: key);
-  final String initialRoute;
-
+  const MyApp({super.key});
+  // const MyApp({Key? key, required this.initialRoute}) : super(key: key);
+  // final String initialRoute;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         highlightColor: CalicoColors.representOrange,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: initialRoute,
+      initialRoute: "login",
       routes: {
         'login': (context) => LoginPage(),
         'video': (context) => VideoPage(),

@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
           // height: 200,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
                 width: 250,
@@ -29,7 +29,10 @@ class _LoginPageState extends State<LoginPage> {
                     // Text("Welcome!"), Text("Please sign in to continue.")
                     Text("Welcome!",
                         style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
                             color: Theme.of(context).primaryColorLight)),
+
                     Text("Please sign in to continue.",
                         style: TextStyle(
                             color: Theme.of(context).primaryColorLight)),
