@@ -46,7 +46,7 @@ class _VideoUIPageState extends State<VideoUIPage> {
               child: CircleAvatar(
                 backgroundImage: ExtendedNetworkImageProvider(
                     widget.video.data!.profileImgUrl!),
-                radius: 16,
+                radius: 20,
               ),
             ),
           ),
