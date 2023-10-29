@@ -1,6 +1,8 @@
 import 'package:clovi_template/models/video_model.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:like_button/like_button.dart';
+
 
 class VideoUIPage extends StatefulWidget {
   final Video video;
@@ -13,6 +15,7 @@ class VideoUIPage extends StatefulWidget {
   @override
   State<VideoUIPage> createState() => _VideoUIPageState();
 }
+bool click = true;
 
 class _VideoUIPageState extends State<VideoUIPage> {
   void directToChannelPage(Video video) async {
@@ -28,17 +31,12 @@ class _VideoUIPageState extends State<VideoUIPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Stack(
       children: [
-        const SizedBox(),
-        Align(
-          alignment: Alignment.bottomLeft,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              bottom: 100,
-              left: 25,
-            ),
+      // const SizedBox(),
+          Container(
+            child: Align(
+              alignment: Alignment(-0.9,0.5),
             child: GestureDetector(
               onTap: () {
                 directToChannelPage(widget.video);
@@ -50,7 +48,27 @@ class _VideoUIPageState extends State<VideoUIPage> {
               ),
             ),
           ),
-        ),
+          ),
+          Container(
+            child: Align(
+              alignment: Alignment(0.9,0.5),
+            child: ElevatedButton(
+              
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent,
+              foregroundColor:(click == false) ? Colors.red : Colors.white ),
+              onPressed:() {setState(() {
+                click = !click;
+              });
+              },
+            child:Icon(Icons.favorite,
+            size: 40)
+            )
+            
+            
+            )
+            
+          ,
+          ),
       ],
     );
   }
