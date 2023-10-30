@@ -1,7 +1,6 @@
 import 'package:clovi_template/models/video_model.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:like_button/like_button.dart';
 
 
 class VideoUIPage extends StatefulWidget {
