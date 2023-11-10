@@ -30,7 +30,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
           BuildContext context,
           int i,
         ) {
-          return videoItemUI(context, items[i], ypController);
+          return VideoItemUI(items[i], ypController);
         },
       ),
       Container(

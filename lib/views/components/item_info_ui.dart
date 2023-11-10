@@ -6,8 +6,20 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:intl/intl.dart';
 
-Widget videoItemUI(BuildContext context, ItemElement itemElement,
-    YoutubePlayerController ypController) {
+class VideoItemUI extends StatefulWidget {
+  final ItemElement itemElement;
+  final YoutubePlayerController ypController;
+
+  VideoItemUI(this.itemElement, this.ypController);
+
+  @override
+  _VideoItemUIState createState() => _VideoItemUIState();
+}
+
+class _VideoItemUIState extends State<VideoItemUI> {
+  bool _isClicked = false;
+  Color _iconColor = Colors.black;
+
   Future<void> _launchURL(String url) async {
     Uri uri;
     if (!url.startsWith("https")) {
@@ -38,127 +50,156 @@ Widget videoItemUI(BuildContext context, ItemElement itemElement,
     }
   }
 
-  return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, 'item_detail', arguments: {
-          'itemElement': itemElement,
-        });
-      },
-      child: Container(
-        decoration: const BoxDecoration(
-          border: Border(
-            top: BorderSide(
-                width: 1.0, color: Color.fromARGB(255, 242, 242, 242)),
-          ),
-        ),
-        padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 14, 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(right: 8),
-              child: ExtendedImage.network(
-                itemElement.item!.itemImgUrl!,
-                width: 80,
-                fit: BoxFit.cover,
-                loadStateChanged: (ExtendedImageState state) {
-                  switch (state.extendedImageLoadState) {
-                    case LoadState.loading:
-                      return null;
-                    case LoadState.completed:
-                      return null;
-                    case LoadState.failed:
-                      return const Icon(Icons.error);
-                  }
-                },
-              ),
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, 'item_detail', arguments: {
+            'itemElement': widget.itemElement,
+          });
+        },
+        child: Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                  width: 1.0, color: Color.fromARGB(255, 242, 242, 242)),
             ),
-            Container(
-                width: 170,
-                height: 120,
-                padding: const EdgeInsets.only(top: 10, bottom: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          '[${itemElement.item!.brand}] ${itemElement.item!.name}',
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 14,
+          ),
+          padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 14, 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(right: 8),
+                child: ExtendedImage.network(
+                  widget.itemElement.item!.itemImgUrl!,
+                  width: 80,
+                  fit: BoxFit.cover,
+                  loadStateChanged: (ExtendedImageState state) {
+                    switch (state.extendedImageLoadState) {
+                      case LoadState.loading:
+                        return null;
+                      case LoadState.completed:
+                        return null;
+                      case LoadState.failed:
+                        return const Icon(Icons.error);
+                    }
+                  },
+                ),
+              ),
+              Container(
+                  width: 135,
+                  height: 130,
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            '[${widget.itemElement.item!.brand}] ${widget.itemElement.item!.name}',
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Text(
-                            '${itemElement.item!.color} / ${itemElement.item!.size} 착용',
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: Color.fromARGB(255, 93, 93, 93),
-                            ),
-                          )),
-                    ),
-                  ],
-                )),
-            Container(
-                margin: const EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '${NumberFormat('#,###').format(itemElement.item!.shops![0].price)}원',
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 10),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).highlightColor,
-                          width: 1.0,
-                        ),
-                        borderRadius: BorderRadius.circular(6.0),
-                      ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            _launchURL(itemElement.item!.shops![0].shopUrl!);
-                          },
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(10, 6, 10, 6),
+                      Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Align(
+                            alignment: Alignment.bottomLeft,
                             child: Text(
-                              '구매 링크',
-                              style: TextStyle(
+                              '${widget.itemElement.item!.color} / ${widget.itemElement.item!.size} 착용',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
                                 fontSize: 13,
-                                color: Theme.of(context).highlightColor,
-                                fontWeight: FontWeight.w500,
-                                //  Color.fromARGB(255, 255, 111, 0)
+                                color: Color.fromARGB(255, 93, 93, 93),
+                              ),
+                            )),
+                      ),
+                    ],
+                  )),
+              Container(
+                height: 75,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _isClicked = !_isClicked;
+                        if (_isClicked) {
+                          _iconColor = Colors.red;
+                        } else {
+                          _iconColor = Colors.black;
+                        }
+                      });
+                    },
+                    icon: Icon(
+                      _isClicked ? Icons.favorite : Icons.favorite_border,
+                      color: _iconColor,
+                      size: 25,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                  margin: const EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${NumberFormat('#,###').format(widget.itemElement.item!.shops![0].price)}원',
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 10),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).highlightColor,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(6.0),
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              _launchURL(
+                                  widget.itemElement.item!.shops![0].shopUrl!);
+                            },
+                            child: Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(10, 6, 10, 6),
+                              child: Text(
+                                '구매 링크',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Theme.of(context).highlightColor,
+                                  fontWeight: FontWeight.w500,
+                                  //  Color.fromARGB(255, 255, 111, 0)
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    )
-                  ],
-                ))
-          ],
-        ),
-      ));
+                      )
+                    ],
+                  ))
+            ],
+          ),
+        ));
+  }
 }
 
 Widget allItemUI(BuildContext context, ItemElement itemElement,
