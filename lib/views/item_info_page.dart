@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'components/item_info_ui.dart';
 // import 'package:http/http.dart' as http;
+import 'package:clovi_template/views/components/bottom_nav_bar.dart';
 
 class ItemInfoPage extends StatefulWidget {
   const ItemInfoPage({super.key});
@@ -110,6 +111,20 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     super.initState();
   }
 
+  // For bottom navigation bar
+  int _currentIndex = 0;
+  void _onItemTapped(int index) {
+    // Handle item selection
+    if (index == 0) {
+      Navigator.pushNamed(context, 'video');
+    } else if (index == 1) {
+      Navigator.pushNamed(context, 'survey_page');
+    } else if (index == 2) {
+      Navigator.pushNamed(context, 'survey_page');
+    }
+    _currentIndex = index;
+  }
+
   @override
   Widget build(BuildContext context) {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
@@ -165,6 +180,12 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
             }
           },
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Theme.of(context).highlightColor,
+        items: BottomNavItems.items,
+        currentIndex: _currentIndex,
+        onTap: _onItemTapped,
       ),
     );
   }

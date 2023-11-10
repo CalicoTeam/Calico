@@ -4,6 +4,7 @@ import 'package:clovi_template/views/components/step_progress.dart';
 import 'package:clovi_template/views/components/style_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:clovi_template/views/components/bottom_nav_bar.dart';
 
 class SurveyPage extends StatefulWidget {
   const SurveyPage({super.key});
@@ -56,6 +57,19 @@ class _SurveyPageState extends State<SurveyPage> {
 
   PageController _controller = PageController(initialPage: 0);
   double _currentPage = 0;
+
+  // For bottom navigation bar
+  int _currentIndex = 1;
+  void _onItemTapped(int index) {
+    if (index == 0) {
+      Navigator.pushNamed(context, 'video');
+    } else if (index == 1) {
+      Navigator.pushNamed(context, 'survey_page');
+    } else if (index == 2) {
+      Navigator.pushNamed(context, 'survey_page');
+    }
+    _currentIndex = index;
+  }
 
   @override
   void initState() {
@@ -276,6 +290,12 @@ class _SurveyPageState extends State<SurveyPage> {
           ),
           Padding(padding: const EdgeInsets.symmetric(vertical: 10))
         ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Theme.of(context).highlightColor,
+        items: BottomNavItems.items,
+        currentIndex: _currentIndex,
+        onTap: _onItemTapped,
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:clovi_template/views/components/bottom_nav_bar.dart';
 
 class ItemDetailPage extends StatefulWidget {
   const ItemDetailPage({super.key});
@@ -12,6 +13,21 @@ class ItemDetailPage extends StatefulWidget {
 }
 
 class _ItemDetailPageState extends State<ItemDetailPage> {
+  // For bottom navigation bar
+  int _currentIndex = 0;
+
+  void _onItemTapped(int index) {
+    // Handle item selection
+    if (index == 0) {
+      Navigator.pushNamed(context, 'video');
+    } else if (index == 1) {
+      Navigator.pushNamed(context, 'survey_page');
+    } else if (index == 2) {
+      Navigator.pushNamed(context, 'survey_page');
+    }
+    _currentIndex = index;
+  }
+
   @override
   Widget build(BuildContext context) {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
@@ -204,6 +220,12 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Theme.of(context).highlightColor,
+        items: BottomNavItems.items,
+        currentIndex: _currentIndex,
+        onTap: _onItemTapped,
       ),
     );
   }
